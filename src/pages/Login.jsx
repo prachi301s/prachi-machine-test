@@ -84,7 +84,7 @@ const Login = () => {
                 {...register("password")}
               />
               <Button variant="contained" type="submit">
-                Log in
+              {isLoading?'Logging...':'Log In'}
               </Button>
             </Stack>
           </form>

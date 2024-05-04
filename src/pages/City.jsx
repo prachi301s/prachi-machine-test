@@ -8,12 +8,12 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import CityCard from "../components/CityCard";
 import { useNavigate } from "react-router-dom";
-
+import Loading from "../Loading";
 const City = () => {
   const [addCity, setAddCity] = useState(false);
   const localStorageData = JSON.parse(localStorage.getItem("loginData"));
   const navigate = useNavigate();
-  
+
   // Declare token variable and initialize it from local storage data
   const token = localStorageData ? localStorageData.token : "";
   console.log(token);
@@ -22,21 +22,25 @@ const City = () => {
 
   console.log(data?.data?.results?.cities);
   return (
-    <Grid container spacing={2} mt={5}>
-      <Grid item xs={12}>
-        <Grid item xs={6}>
-          <Typography variant="h4">Cities</Typography>
+    <>
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <Grid container spacing={2} mt={5}>
+          <Grid item xs={12}>
+            <Grid item xs={6}>
+              <Typography variant="h4">Cities</Typography>
+            </Grid>
+            <Grid item xs={6}></Grid>
+          </Grid>
+          {data?.data?.results?.cities?.map((city) => (
+            <Grid item xs={4}>
+              <CityCard cityName={city.name} total_place={city.total_places} />
+            </Grid>
+          ))}
         </Grid>
-        <Grid item xs={6}>
-          
-        </Grid>
-      </Grid>
-      {data?.data?.results?.cities?.map((city) => (
-        <Grid item xs={4}>
-          <CityCard cityName={city.name} total_place={city.total_places} />
-        </Grid>
-      ))}
-    </Grid>
+      )}
+    </>
   );
 };
 
